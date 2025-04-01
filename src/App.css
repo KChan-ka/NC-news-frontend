@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500");
+
+.topBar{
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  border-bottom: solid black;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.Dropdown {
+  height:35px;
+  padding-right: 3dvh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Home {
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  margin-right: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.search {
+  padding-right: 2%;
+
+} 
+
+.profileImage {
+  height:35px;
+  border-radius: 50%;
+  float:right;
+}
+.helpbar {
+  padding: 8px;
 }
 
-.card {
-  padding: 2em;
+.sortBox {
+  float: right;
+  gap: 0.5rem;
+  max-width: 100%;
+} 
+
+.ArticleBody {
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 
-.read-the-docs {
-  color: #888;
+.articleCardImage {
+  width: 450px;
+  margin-top: 20px;
+}
+
+.articleCard {
+  display: block;
+  height: 500px;
+  width: 500px;
+  padding-left: 50px;
+  margin:20px;
+  border: solid grey;
+}
+
+.articleCardDetails {
+  float: right;
+  margin-right:30px;
 }
