@@ -24,3 +24,11 @@ export function getCommentsByArticleId(articleId) {
         return comments
     })
 }
+
+export function patchByArticleId(articleId, body) {
+    console.log(`PATCH ${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, " <<< making call")
+    return axios.patch(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, body)
+    .then(({data :{article}}) => {
+        return article
+    })
+}

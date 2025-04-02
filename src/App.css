@@ -70,6 +70,8 @@
 
 .articlePageTopic {
   float: right;
+  font-weight: bold;
+  margin-left: 20px;
 }
 
 .articlePage{
@@ -80,6 +82,7 @@
 .articlePageDetails {
   display: flex;
   justify-content: flex-start;
+  font-weight: bold;
 }
 
 .articlePageCommentsCount {
@@ -91,7 +94,18 @@
   padding-bottom: 15px;
 }
 
+.articlePageVotes {
+  display: flex;
+  background-color: rgb(212, 210, 210);
+  border-radius: 30%;
+  float:right;
+  padding:4px;
+  align-items: center;
+}
 
+.arrowImg {
+  height: 30px;
+}
 
 .articlePageBody {
   font-size: 1.3rem;
@@ -99,7 +113,7 @@
 
 #CommentsHeader {
   border-bottom: solid grey;
-  padding-top: 45px;
+  padding-top: 100px;
   padding-bottom: 25px;
 }
 
@@ -114,4 +128,10 @@
 
 .commentsVotes {
   border-bottom: solid grey 1px;
+}
+
+.errorMessageRight {
+  color: red;
+  float:right;
+  padding-right: 20px;
 }
