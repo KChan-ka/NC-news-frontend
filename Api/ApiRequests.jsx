@@ -1,33 +1,35 @@
 import axios from "axios";
 
+const apiClient = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    timeout: 30000,
+})
+
+
 
 export function getAllArticles() {
-    console.log(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}`, " <<< making a call")
-    return axios.get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}`)
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}`)
     .then(({data :{articles}}) => {
         return articles
     })
 }
 
 export function getArticleById(articleId) {
-    console.log(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, " <<< making call")
-    return axios.get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`)
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`)
     .then(({data :{article}}) => {
         return article
     })
 }
 
 export function getCommentsByArticleId(articleId) {
-    console.log(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}/comments`, " <<< making call")
-    return axios.get(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}/comments`)
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}/comments`)
     .then(({data :{comments}}) => {
         return comments
     })
 }
 
 export function patchByArticleId(articleId, body) {
-    console.log(`PATCH ${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, " <<< making call")
-    return axios.patch(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, body)
+    return apiClient.patch(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, body)
     .then(({data :{article}}) => {
         return article
     })

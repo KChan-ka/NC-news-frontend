@@ -1,18 +1,11 @@
 import convertISO8601ToStandardDateTime from "../utils/utils"
-import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 
 export default function ArticleCard({ article }) {
 
-    const navigate = useNavigate();
-
-    function handleIndividualArticle() {
-        navigate(`/articles/${article.article_id}`, { replace: true })
-    }
-
-
     return (
-        <div className="articleCard" onClick={handleIndividualArticle}>
+        <Link to={`/articles/${article.article_id}`} relative="path" className="articleCard">
             {article.article_img_url ? <img src={article.article_img_url} className="articleCardImage" /> : null}
 
             < h3 > {article.title}</h3 >
@@ -21,7 +14,7 @@ export default function ArticleCard({ article }) {
                 <p className="articleCardDetails">By, {article.author}, posted on {convertISO8601ToStandardDateTime(article.created_at)}</p>
                 <p className="articleCardDetails">comments: {article.comment_count}, votes: {article.votes}</p>
             </div>
-        </div >
+        </Link >
     )
 }
 
