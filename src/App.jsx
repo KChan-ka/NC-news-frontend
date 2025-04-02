@@ -7,7 +7,7 @@ import UserProfile from '../components/UserProfile.jsx'
 import HomePage from '../components/HomePage.jsx'
 import { Route, Routes } from "react-router"
 import ArticlePage from '../components/ArticlePage.jsx';
-
+import LoginScreen from '../components/LogInScreen.jsx'
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/articles/:article_id" element={<ArticlePage />} />
+        <Route path="/login" element={<LoginScreen />} />
       </Routes>
     </div>
   )
