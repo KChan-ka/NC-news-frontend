@@ -4,8 +4,8 @@
   font-family: "verdana"
 }
 
-.topBar{
-  display:flex;
+.topBar {
+  display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 10px;
@@ -13,25 +13,26 @@
 }
 
 .Dropdown {
-  height:35px;
+  height: 35px;
   padding-right: 3dvh;
 }
 
 .Home {
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin-right: auto;
 }
 
 .search {
   padding-right: 2%;
 
-} 
+}
 
 .profileImage {
-  height:35px;
+  height: 35px;
   border-radius: 50%;
-  float:right;
+  float: right;
 }
+
 .helpbar {
   padding: 8px;
 }
@@ -40,7 +41,7 @@
   float: right;
   gap: 0.5rem;
   max-width: 100%;
-} 
+}
 
 .ArticleBody {
   display: inline-flex;
@@ -57,14 +58,14 @@
   height: 500px;
   width: 500px;
   padding-left: 50px;
-  margin:20px;
+  margin: 20px;
   border: solid grey;
 }
 
 .articleCardDetails {
   float: right;
-  margin-right:30px;
-  margin-top:2px;
+  margin-right: 30px;
+  margin-top: 2px;
   line-height: 3px;
 }
 
@@ -74,9 +75,9 @@
   margin-left: 20px;
 }
 
-.articlePage{
-  margin-left:30px;
-  margin-right:30px;
+.articlePage {
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .articlePageDetails {
@@ -98,8 +99,8 @@
   display: flex;
   background-color: rgb(212, 210, 210);
   border-radius: 30%;
-  float:right;
-  padding:4px;
+  float: right;
+  padding: 4px;
   align-items: center;
 }
 
@@ -132,6 +133,36 @@
 
 .errorMessageRight {
   color: red;
-  float:right;
+  float: right;
   padding-right: 20px;
+}
+
+.LoginBox {
+  border: 2px solid black;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 26px;
+  min-width: 280px;
+  margin-top: 48px;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-left: 40%;
+  height: 400px;
+}
+
+.LoginBoxContents {
+  padding-right: 30px;
+  margin: 50px;
+  font-size: 20px;
+}
+
+.LoginButton {
+  font-size: 20px;
+  border-radius: 10%;
+}
+
+.logout {
+  text-decoration: underline;
+  font-weight: bold;
 }

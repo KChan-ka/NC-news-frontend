@@ -5,8 +5,6 @@ const apiClient = axios.create({
     timeout: 30000,
 })
 
-
-
 export function getAllArticles() {
     return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}`)
     .then(({data :{articles}}) => {
@@ -32,5 +30,12 @@ export function patchByArticleId(articleId, body) {
     return apiClient.patch(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}`, body)
     .then(({data :{article}}) => {
         return article
+    })
+}
+
+export function getAllUsers() {
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_USERS_URL}`)
+    .then(({data :{users}}) => {
+        return users
     })
 }
