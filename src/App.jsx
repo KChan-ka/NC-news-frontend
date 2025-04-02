@@ -1,15 +1,15 @@
 import './App.css'
+import Router from './Router.jsx'
 import Dropdown from '../components/Dropdown.jsx'
 import Home from '../components/Home.jsx'
 import Search from '../components/Search.jsx'
 import UserProfile from '../components/UserProfile.jsx'
-import CreateArticle from '../components/CreateArticle.jsx'
-import SortBox from '../components/SortBox.jsx'
-import BodyArticle from '../components/ArticleBody.jsx'
+import HomePage from '../components/HomePage.jsx'
+import { Route, Routes } from "react-router"
+import ArticlePage from '../components/ArticlePage.jsx';
+
 
 function App() {
-  console.log(import.meta.env.VITE_API_URL, "<<<react url")
-
   return (
     <div>
       <div className="topBar">
@@ -18,13 +18,10 @@ function App() {
         <Search />
         <UserProfile />
       </div>
-      <div className="helpbar">
-        <CreateArticle />
-        <SortBox />
-      </div>
-      <div>
-        <BodyArticle />
-      </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/articles/:article_id" element={<ArticlePage />} />
+      </Routes>
     </div>
   )
 }

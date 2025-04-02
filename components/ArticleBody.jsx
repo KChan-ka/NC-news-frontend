@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
-import getAllArticles from "../Api/ApiRequests"
-import Article from "./Article"
+import { useEffect, useState, Route, Routes } from "react"
+import {getAllArticles} from "../Api/ApiRequests"
+import ArticleCard from "./ArticleCard"
 
-export default function BodyArticle() {
+export default function ArticleBody() {
 
     const [articlesList, setArticlesList] = useState([])
 
@@ -18,7 +18,7 @@ export default function BodyArticle() {
     return (
         <div className="ArticleBody">
             {articlesList.map((article) => {
-                return <Article key={article.article_id} article={article}/>
+                return <ArticleCard key={article.article_id} article={article}/>
             })}
         </div>
     )
