@@ -24,15 +24,20 @@ export default function ArticlePage() {
                 setArticle(data)
                 setVotes(data.votes)
             })
+            .then(() => {
+                getCommentsByArticleId(article_id)
+                .then((data)=> {
+                    setComments(data)
+                })
+            }
+        )
     }, [])
 
-    useEffect(() => {
-        getCommentsByArticleId(article_id)
-            .then((data) => {
-                setComments(data)
-            })
-    }, [])
-
+    //this function handles the voting system.
+    //if first time voting, then move votes by 1
+    //if voting opposite to prior attempt, move by 2
+    //if clicking the same voting arrow twice, undo the voting
+    
     function handleVote(amount, buttonVoteUp) {
 
         //undo if already voted up or down
