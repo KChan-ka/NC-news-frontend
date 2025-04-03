@@ -1,6 +1,6 @@
 import convertISO8601ToStandardDateTime from "../utils/utils"
 import { useState, useEffect, useContext } from "react"
-import { getArticleById, getCommentsByArticleId, patchByArticleId } from "../Api/ApiRequests"
+import { getArticleById, getCommentsByArticleId, patchByArticleId, deleteCommentByCommentId } from "../Api/ApiRequests"
 import { useParams } from "react-router-dom"
 import CommentCard from "./CommentCard"
 import { currentUserContext } from "../contexts/User";
@@ -31,6 +31,9 @@ export default function ArticlePage() {
     const [hasVotedUp, setHasVotedUp] = useState(false)
     const [hasVotedDown, setHasVotedDown] = useState(false)
 
+    const [hasDeletedComment, setHasDeletedComment] = useState(false)
+    const [hasDeletedCommentError, setHasDeletedCommentError] = useState(false)
+
     //Initial page load
     useEffect(() => {
         setIsLoading(true)
@@ -49,6 +52,7 @@ export default function ArticlePage() {
             )
     }, [])
 
+    //refresh comments if comment is submitted
     useEffect(() => {
         setIsLoading(true)
         getCommentsByArticleId(article_id)
@@ -56,14 +60,14 @@ export default function ArticlePage() {
             setComments(data)
             setIsLoading(false)
             setSubmitComment(false)
+            setHasDeletedComment(false)
         })
-    }, [submitComment])
+    }, [submitComment, hasDeletedComment])
 
     //this function handles the voting system.
     //if first time voting, then move votes by 1
     //if voting opposite to prior attempt, move by 2
     //if clicking the same voting arrow twice, undo the voting
-
     function handleVote(amount, buttonVoteUp) {
 
         //undo if already voted up or down
@@ -112,6 +116,7 @@ export default function ArticlePage() {
             })
     }
 
+    //this function handles saving a new comment
     function handlePostComment(event) {
         event.preventDefault()
 
@@ -123,12 +128,22 @@ export default function ArticlePage() {
             .then(() => {
                 setEmptyCommentError(false)
                 setSaveCommentError(false)
+                setHasDeletedCommentError(false)
                 setSubmitComment(true)
             })
             .catch(() => {
                 setSaveCommentError(true)
             })
         }
+    }
+
+    //this function handles deleting a new comment
+    function handleDeleteComment(commentId) {
+        setHasDeletedComment(true)
+        deleteCommentByCommentId(commentId)
+        .catch(() => {
+            setHasDeletedCommentError(true)
+        })
     }
 
     return (
@@ -156,7 +171,11 @@ export default function ArticlePage() {
                 <div>
                     <h2 id="CommentsHeader">Comments ({comments.length})</h2>
                     {comments.map((comment) => {
-                        return <CommentCard key={comment.comment_id} comment={comment} />
+                        return <CommentCard 
+                            key={comment.comment_id} 
+                            comment={comment} 
+                            handleDeleteComment={handleDeleteComment}
+                            />
                     })}
                 </div>
                 {Object.keys(currentUser).length !== 0 ?

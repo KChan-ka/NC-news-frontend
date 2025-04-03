@@ -46,3 +46,10 @@ export function postCommentByArticleId(articleId, body) {
         return comment
     })
 }
+
+export function deleteCommentByCommentId(commentId) {
+    return apiClient.delete(`${import.meta.env.VITE_GET_ALL_COMMENTS_URL}/${commentId}`)
+    .then(({data :{comment}}) => {
+        return comment
+    })
+}
