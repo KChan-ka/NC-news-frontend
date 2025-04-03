@@ -15,6 +15,7 @@ export default function LoginScreen() {
     useEffect(() => {
         getAllUsers()
             .then((data) => {
+                setSelectedUsers(data[0].username)
                 setUsers(data)
         })
     }, [])
@@ -35,7 +36,7 @@ export default function LoginScreen() {
                     return <option key={user.username} value={user.username}>{user.username}</option>
                 })) : null}
             </select>
-            <button className="LoginButton" onClick={handleSubmit}>Log in</button>
+            <button className="Button" onClick={handleSubmit}>Log in</button>
         </div>
     )
 }

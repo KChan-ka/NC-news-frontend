@@ -1,13 +1,24 @@
 import convertISO8601ToStandardDateTime from "../utils/utils"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { getArticleById, getCommentsByArticleId, patchByArticleId } from "../Api/ApiRequests"
 import { useParams } from "react-router-dom"
 import CommentCard from "./CommentCard"
-
+import { currentUserContext } from "../contexts/User";
+import { postCommentByArticleId } from "../Api/ApiRequests"
 
 
 export default function ArticlePage() {
+
+    const { currentUser } = useContext(currentUserContext)
+
     const { article_id } = useParams()
+
+    const [ newComment, setNewComment ] = useState("")
+
+    const [ submitComment, setSubmitComment ] = useState(false)
+
+    const [ emptyCommentError, setEmptyCommentError ] = useState(false)
+    const [ saveCommentError, setSaveCommentError ] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -20,6 +31,7 @@ export default function ArticlePage() {
     const [hasVotedUp, setHasVotedUp] = useState(false)
     const [hasVotedDown, setHasVotedDown] = useState(false)
 
+    //Initial page load
     useEffect(() => {
         setIsLoading(true)
         getArticleById(article_id)
@@ -36,6 +48,16 @@ export default function ArticlePage() {
             }
             )
     }, [])
+
+    useEffect(() => {
+        setIsLoading(true)
+        getCommentsByArticleId(article_id)
+        .then((data) => {
+            setComments(data)
+            setIsLoading(false)
+            setSubmitComment(false)
+        })
+    }, [submitComment])
 
     //this function handles the voting system.
     //if first time voting, then move votes by 1
@@ -90,6 +112,25 @@ export default function ArticlePage() {
             })
     }
 
+    function handlePostComment(event) {
+        event.preventDefault()
+
+        if (newComment.length === 0) {
+            setEmptyCommentError(true)
+        }
+        else{
+            postCommentByArticleId(article.article_id, { "username": currentUser.username, "body": newComment })
+            .then(() => {
+                setEmptyCommentError(false)
+                setSaveCommentError(false)
+                setSubmitComment(true)
+            })
+            .catch(() => {
+                setSaveCommentError(true)
+            })
+        }
+    }
+
     return (
         <div>
             {isLoading ? <p>Loading Article ...</p> : (<div className="articlePage">
@@ -118,6 +159,25 @@ export default function ArticlePage() {
                         return <CommentCard key={comment.comment_id} comment={comment} />
                     })}
                 </div>
+                {Object.keys(currentUser).length !== 0 ?
+                    <div>
+                        <form onSubmit={handlePostComment} className="submitForm">
+                            <label htmlFor="newComment" className="commentsBody">Post your comment: </label>
+                            <textarea 
+                                className="textarea"
+                                id="newComment" 
+                                name="newComment" 
+                                onChange={(event) => {
+                                    setNewComment(event.target.value)
+                                }} />
+                            <button type="submit" className="Button">Submit</button>
+                        </form>
+                        {emptyCommentError ? <p className="error">No comment was entered, please type in something</p> : null}
+                        {saveCommentError ? <p className="error">Failed to save comment, please try again</p> : null}
+                    </div>
+                    :
+                    null
+                }
             </div >)}
         </div>
     )

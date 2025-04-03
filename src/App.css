@@ -137,6 +137,11 @@
   padding-right: 20px;
 }
 
+.error {
+  color: red;
+  font-size: 20px;
+}
+
 .LoginBox {
   border: 2px solid black;
   width: 300px;
@@ -157,7 +162,7 @@
   font-size: 20px;
 }
 
-.LoginButton {
+.Button {
   font-size: 20px;
   border-radius: 10%;
 }
@@ -165,4 +170,20 @@
 .logout {
   text-decoration: underline;
   font-weight: bold;
+  flex:right;
+}
+
+.submitForm {
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  padding:40px;
+  border-radius: 26px;
+}
+
+.textarea {
+  height:300px;
+  margin-top:30px;
+  margin-bottom:30px;
+  font-size: 20px;
 }
