@@ -5,8 +5,8 @@ const apiClient = axios.create({
     timeout: 30000,
 })
 
-export function getAllArticles() {
-    return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}`)
+export function getAllArticles(topic, sort) {
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}?limit=${import.meta.env.VITE_GET_MAXIMUM_RESULTS_ON_PAGE}${topic}${sort}`)
     .then(({data :{articles}}) => {
         return articles
     })

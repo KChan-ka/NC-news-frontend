@@ -19,3 +19,4 @@ export default function CommentCard({ comment, handleDeleteComment }) {
             <p className="commentsVotes">votes: {comment.votes}</p>
         </div>)
 }
+

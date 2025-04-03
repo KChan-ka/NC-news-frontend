@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/articles/:article_id" element={<ArticlePage />} />
         <Route path="/login" element={<LoginScreen />} />
-        <Route path="/topics/:slug" element={<HomePage />} />
+        <Route path="/articles" element={<HomePage />} />
       </Routes>
     </div>
   )

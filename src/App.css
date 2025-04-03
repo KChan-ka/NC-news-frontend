@@ -37,10 +37,30 @@
   padding: 8px;
 }
 
+.CreateArticleButton {
+  font-size: 18px;
+}
+
 .sortBox {
+  display: flex;
   float: right;
-  gap: 0.5rem;
-  max-width: 100%;
+  padding: 10px;
+  height:10px;
+  align-items: center;
+  margin: 20px;
+  font-size: 18px;;
+}
+
+.form {
+  font-size: 18px;
+}
+
+optgroup {
+  font-size: 18px;
+}
+
+.label {
+  padding-right: 15px;
 }
 
 .ArticleBody {

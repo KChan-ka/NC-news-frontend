@@ -5,17 +5,18 @@ import TopicsDropdown from '../components/TopicsDropdown.jsx'
 import { useState } from 'react'
 
 export default function HomePage() {
-    const [currentTopic, setCurrentTopic] = useState("All")
+    const [currentTopic, setCurrentTopic] = useState("")
+    const [sort, setSort] = useState("")
 
 
     return (
         <div>
             <div className="helpbar">
                 <CreateArticle />
-                <TopicsDropdown currentTopic={currentTopic} setCurrentTopic={setCurrentTopic}/>
-                <SortBox />
+                <TopicsDropdown setCurrentTopic={setCurrentTopic}/>
+                <SortBox setSort={setSort}/>
             </div>
-            <ArticleBody currentTopic={currentTopic}/>
+            <ArticleBody currentTopic={currentTopic} setCurrentTopic={setCurrentTopic} sort={sort} setSort={setSort}/>
         </div>
 
     )
