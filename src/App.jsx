@@ -1,6 +1,4 @@
 import './App.css'
-import Router from './Router.jsx'
-import Dropdown from '../components/Dropdown.jsx'
 import Home from '../components/Home.jsx'
 import Search from '../components/Search.jsx'
 import UserProfile from '../components/UserProfile.jsx'
@@ -13,7 +11,6 @@ function App() {
   return (
     <div>
       <div className="topBar">
-        <Dropdown />
         <Home />
         <Search />
         <UserProfile />
@@ -22,6 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/articles/:article_id" element={<ArticlePage />} />
         <Route path="/login" element={<LoginScreen />} />
+        <Route path="/topics/:slug" element={<HomePage />} />
       </Routes>
     </div>
   )

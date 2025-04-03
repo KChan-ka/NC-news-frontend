@@ -53,3 +53,10 @@ export function deleteCommentByCommentId(commentId) {
         return comment
     })
 }
+
+export function getAllTopics() {
+    return apiClient.get(`${import.meta.env.VITE_GET_ALL_TOPICS_URL}`)
+    .then(({data :{topics}}) => {
+        return topics
+    })
+}
