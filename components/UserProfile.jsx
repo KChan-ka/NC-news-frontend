@@ -21,10 +21,10 @@ export default function UserProfile() {
                     </Link>
                 </div>
             ) : (
-                <div>
+                <div className="LoginProfile">
                     <img src={currentUser.avatar_url} className="profileImage" />
                     <p>{currentUser.username}</p>
-                    <p onClick={handleLogout} className="logout">Log out</p>
+                    <p onClick={handleLogout}>Log out</p>
                 </div>
             )}
         </div>

@@ -39,3 +39,10 @@ export function getAllUsers() {
         return users
     })
 }
+
+export function postCommentByArticleId(articleId, body) {
+    return apiClient.post(`${import.meta.env.VITE_GET_ALL_ARTICLES_URL}/${articleId}/comments`, body)
+    .then(({data :{comment}}) => {
+        return comment
+    })
+}
