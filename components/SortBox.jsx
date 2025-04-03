@@ -1,11 +1,18 @@
-export default function SortBox() {
+export default function SortBox({setSort}) {
     return (
-        <>
-            <select className="sortBox">
-                <option>date created</option>
-                <option>author</option>
+        <div className="sortBox">
+            <p className="label">sort by: </p>
+            <select className="form" onChange={((event) => {setSort(event.target.value)})}>
+                <optgroup>
+                    <option value="&sort_by=created_at&order=asc">↑ date created</option>
+                    <option value="&sort_by=created_at&order=desc">↓ date created</option>
+                    <option value="&sort_by=comment_count&order=asc">↑ comments</option>
+                    <option value="&sort_by=comment_count&order=desc">↓ comments</option>
+                    <option value="&sort_by=votes&order=asc">↑ votes</option>
+                    <option value="&sort_by=votes&order=desc">↓ votes</option>
+                </optgroup>
             </select>
-        </>
+        </div>
     )
 }
 

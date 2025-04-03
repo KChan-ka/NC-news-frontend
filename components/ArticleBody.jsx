@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
 import { getAllArticles } from "../Api/ApiRequests"
 import ArticleCard from "./ArticleCard"
-import { useParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
-export default function ArticleBody({ currentTopic }) {
+export default function ArticleBody({ currentTopic, setCurrentTopic, sort, setSort }) {
 
     const navigate = useNavigate()
+
+    const [searchParams] = useSearchParams()
 
     const [articlesList, setArticlesList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -15,37 +17,33 @@ export default function ArticleBody({ currentTopic }) {
     //populate articles
     useEffect(() => {
         setIsLoading(true)
-        getAllArticles()
+        getAllArticles(currentTopic, sort)
             .then((data) => {
                 //if all topics, return all articles
-                if (currentTopic === "All") {
+                if (data.length === 0) {
+                    setIsEmptyArticleListError(true)
+                }
+                else {
                     setArticlesList(data)
                     setIsLoading(false)
                     setIsEmptyArticleListError(false)
-                    navigate("/")
-                }
-                //else return articles filtered by topics
-                //if no articles, display an error tag
-                else {
-                    const filteredArticles = data.filter((article) => {
-                        return article.topic === currentTopic
-                    })
-                    if (filteredArticles.length === 0) {
-                        setIsEmptyArticleListError(true)
-                    }
-                    else {
-                        setIsEmptyArticleListError(false)
-                        setArticlesList(filteredArticles)
-                        setIsLoading(false)
-                        navigate(`/topics/${currentTopic}`)
-                    }
+                    navigate(`/articles?limit=${import.meta.env.VITE_GET_MAXIMUM_RESULTS_ON_PAGE}${currentTopic}${queryURL}`)
                 }
             })
             .catch(() => {
                 setIsLoading(false)
             })
-    }, [currentTopic])
+    }, [currentTopic, sort])
 
+    //initialise the page
+    useEffect(() => {
+        if (searchParams.get("topic") !== null) {
+            setCurrentTopic(`&topic=${searchParams.get("topic")}`)
+        }
+        if (searchParams.get("sort_by") !== null) {
+            setCurrentTopic(`&sort_by=${searchParams.get("sort_by")}&order=${searchParams.get("order")}`)
+        }
+    }, [])
 
     return (
         <div>
