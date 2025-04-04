@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import CommentCard from "./CommentCard"
 import { currentUserContext } from "../contexts/User";
 import { postCommentByArticleId } from "../Api/ApiRequests"
+import NoExistentPage from "./NoExistentPage"
 
 
 export default function ArticlePage() {
@@ -13,16 +14,17 @@ export default function ArticlePage() {
 
     const { article_id } = useParams()
 
-    const [ newComment, setNewComment ] = useState("")
+    const [newComment, setNewComment] = useState("")
 
-    const [ submitComment, setSubmitComment ] = useState(false)
+    const [submitComment, setSubmitComment] = useState(false)
 
-    const [ emptyCommentError, setEmptyCommentError ] = useState(false)
-    const [ saveCommentError, setSaveCommentError ] = useState(false)
+    const [emptyCommentError, setEmptyCommentError] = useState(false)
+    const [saveCommentError, setSaveCommentError] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
 
     const [article, setArticle] = useState({})
+    const [articleError, setArticleError] = useState(false)
     const [comments, setComments] = useState([])
 
     const [votes, setVotes] = useState(0)
@@ -39,29 +41,39 @@ export default function ArticlePage() {
         setIsLoading(true)
         getArticleById(article_id)
             .then((data) => {
-                setArticle(data)
-                setVotes(data.votes)
+                if (data.length === 0) {
+                    setArticleError(true)
+                }
+                else {
+                    setArticle(data)
+                    setVotes(data.votes)
+                    setArticleError(false)
+                    getCommentsByArticleId(article_id)
+                        .then((data) => {
+                            setComments(data)
+                            setIsLoading(false)
+                        })
+                        .catch(() => {
+                        })
+                }
             })
-            .then(() => {
-                getCommentsByArticleId(article_id)
-                    .then((data) => {
-                        setComments(data)
-                        setIsLoading(false)
-                    })
-            }
-            )
+            .catch(() => {
+                setArticleError(true)
+            })
     }, [])
 
     //refresh comments if comment is submitted
     useEffect(() => {
         setIsLoading(true)
         getCommentsByArticleId(article_id)
-        .then((data) => {
-            setComments(data)
-            setIsLoading(false)
-            setSubmitComment(false)
-            setHasDeletedComment(false)
-        })
+            .then((data) => {
+                setComments(data)
+                setIsLoading(false)
+                setSubmitComment(false)
+                setHasDeletedComment(false)
+            })
+            .catch(() => {           
+            })
     }, [submitComment, hasDeletedComment])
 
     //this function handles the voting system.
@@ -123,17 +135,17 @@ export default function ArticlePage() {
         if (newComment.length === 0) {
             setEmptyCommentError(true)
         }
-        else{
+        else {
             postCommentByArticleId(article.article_id, { "username": currentUser.username, "body": newComment })
-            .then(() => {
-                setEmptyCommentError(false)
-                setSaveCommentError(false)
-                setHasDeletedCommentError(false)
-                setSubmitComment(true)
-            })
-            .catch(() => {
-                setSaveCommentError(true)
-            })
+                .then(() => {
+                    setEmptyCommentError(false)
+                    setSaveCommentError(false)
+                    setHasDeletedCommentError(false)
+                    setSubmitComment(true)
+                })
+                .catch(() => {
+                    setSaveCommentError(true)
+                })
         }
     }
 
@@ -141,63 +153,65 @@ export default function ArticlePage() {
     function handleDeleteComment(commentId) {
         setHasDeletedComment(true)
         deleteCommentByCommentId(commentId)
-        .catch(() => {
-            setHasDeletedCommentError(true)
-        })
+            .catch(() => {
+                setHasDeletedCommentError(true)
+            })
     }
 
     return (
         <div>
-            {isLoading ? <p>Loading Article ...</p> : (<div className="articlePage">
-                <div>
-                    <p className="articlePageTopic">TOPIC: {article.topic}</p>
-                    <h1 className="articlePageTitle">{article.title}</h1>
-                    <img src={article.article_img_url} className="articlePageImg" />
-
-                    <div className="articlePageDetails">
-                        <p>BY {article.author}</p>
-                        <p className="articlePageCommentsCount">COMMENTS: {comments.length}</p>
-                    </div>
-                    <p className="articlePageDate">POSTED ON: {convertISO8601ToStandardDateTime(article.created_at)}</p>
-                    <p className="articlePageBody">{article.body}</p>
-                    <div className="articlePageVotes">
-                        <img src="../Resources/UpArrow.png" className="arrowImg" onClick={() => { handleVote(1, true) }} />
-                        <p>{votes}</p>
-                        <img src="../Resources/DownArrow.png" className="arrowImg" onClick={() => { handleVote(-1, false) }} />
-                    </div>
-                    {errorVotes ? <p className="errorMessageRight">{errorVotes}</p> : null}
-                </div>
-
-                <div>
-                    <h2 id="CommentsHeader">Comments ({comments.length})</h2>
-                    {comments.map((comment) => {
-                        return <CommentCard 
-                            key={comment.comment_id} 
-                            comment={comment} 
-                            handleDeleteComment={handleDeleteComment}
-                            />
-                    })}
-                </div>
-                {Object.keys(currentUser).length !== 0 ?
+            {articleError ? <NoExistentPage item="article" /> :
+                isLoading ? <p>Loading Article ...</p> : <div className="articlePage">
                     <div>
-                        <form onSubmit={handlePostComment} className="submitForm">
-                            <label htmlFor="newComment" className="commentsBody">Post your comment: </label>
-                            <textarea 
-                                className="textarea"
-                                id="newComment" 
-                                name="newComment" 
-                                onChange={(event) => {
-                                    setNewComment(event.target.value)
-                                }} />
-                            <button type="submit" className="Button">Submit</button>
-                        </form>
-                        {emptyCommentError ? <p className="error">No comment was entered, please type in something</p> : null}
-                        {saveCommentError ? <p className="error">Failed to save comment, please try again</p> : null}
+                        <p className="articlePageTopic">TOPIC: {article.topic}</p>
+                        <h1 className="articlePageTitle">{article.title}</h1>
+                        <img src={article.article_img_url} className="articlePageImg" />
+
+                        <div className="articlePageDetails">
+                            <p>BY {article.author}</p>
+                            <p className="articlePageCommentsCount">COMMENTS: {comments.length}</p>
+                        </div>
+                        <p className="articlePageDate">POSTED ON: {convertISO8601ToStandardDateTime(article.created_at)}</p>
+                        <p className="articlePageBody">{article.body}</p>
+                        <div className="articlePageVotes">
+                            <img src="../Resources/UpArrow.png" className="arrowImg" onClick={() => { handleVote(1, true) }} />
+                            <p>{votes}</p>
+                            <img src="../Resources/DownArrow.png" className="arrowImg" onClick={() => { handleVote(-1, false) }} />
+                        </div>
+                        {errorVotes ? <p className="errorMessageRight">{errorVotes}</p> : null}
                     </div>
-                    :
-                    null
-                }
-            </div >)}
-        </div>
+
+                    <div>
+                        <h2 id="CommentsHeader">Comments ({comments.length})</h2>
+                        {comments.map((comment) => {
+                            return <CommentCard
+                                key={comment.comment_id}
+                                comment={comment}
+                                handleDeleteComment={handleDeleteComment}
+                            />
+                        })}
+                    </div>
+                    {Object.keys(currentUser).length !== 0 ?
+                        <div>
+                            <form onSubmit={handlePostComment} className="submitForm">
+                                <label htmlFor="newComment" className="commentsBody">Post your comment: </label>
+                                <textarea
+                                    className="textarea"
+                                    id="newComment"
+                                    name="newComment"
+                                    onChange={(event) => {
+                                        setNewComment(event.target.value)
+                                    }} />
+                                <button type="submit" className="Button">Submit</button>
+                            </form>
+                            {emptyCommentError ? <p className="error">No comment was entered, please type in something</p> : null}
+                            {saveCommentError ? <p className="error">Failed to save comment, please try again</p> : null}
+                        </div>
+                        :
+                        null
+                    }
+                </div >
+            }
+        </div >
     )
 }

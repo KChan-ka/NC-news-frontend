@@ -1,17 +1,5 @@
-import { useState, useEffect } from "react"
-import { getAllTopics } from "../Api/ApiRequests"
 
-export default function SearchByTopic({ setCurrentTopic }) {
-
-    const [topics, setTopics] = useState([])
-
-    //populate topics
-    useEffect(() => {
-        getAllTopics()
-            .then((data) => {
-                setTopics(data)
-            })
-    }, [])
+export default function SearchByTopic({ setCurrentTopic, currentTopic, topics }) {
 
     function handleTopicChange(event) {
         setCurrentTopic(event.target.value)
@@ -20,7 +8,7 @@ export default function SearchByTopic({ setCurrentTopic }) {
     return (
         <div className="sortBox">
             <p className="label">topics: </p>
-            <select className="form" name="Login" onChange={handleTopicChange}>
+            <select className="form" name="Login" value={currentTopic} onChange={handleTopicChange}>
                 <optgroup>
                     <option value="">All Topics</option>
                     {topics !== null ?

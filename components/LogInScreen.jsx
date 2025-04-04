@@ -25,7 +25,7 @@ export default function LoginScreen() {
         setCurrentUser(users.filter((user) => {
             return user.username === selectedUser
         })[0])
-        navigate("/")
+        navigate(-1)
     }
 
     return (
