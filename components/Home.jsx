@@ -9,7 +9,7 @@ export default function Home({setSort, setCurrentTopic}) {
 
     return (
         <>
-            <Link to="/" onClick={handleHomePage} className="Home"><h2>NC News 22</h2></Link>
+            <Link to="/" onClick={handleHomePage} className="Home"><h2>NC News</h2></Link>
         </>
     )
 }
