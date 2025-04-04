@@ -45,10 +45,11 @@
   display: flex;
   float: right;
   padding: 10px;
-  height:10px;
+  height: 10px;
   align-items: center;
   margin: 20px;
-  font-size: 18px;;
+  font-size: 18px;
+  ;
 }
 
 .form {
@@ -190,31 +191,39 @@ optgroup {
 .logout {
   text-decoration: underline;
   font-weight: bold;
-  flex:right;
+  flex: right;
 }
 
 .submitForm {
   border: 2px solid black;
   display: flex;
   flex-direction: column;
-  padding:40px;
+  padding: 40px;
   border-radius: 26px;
 }
 
 .textarea {
-  height:300px;
-  margin-top:30px;
-  margin-bottom:30px;
+  height: 300px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   font-size: 20px;
 }
 
 .commentHeader {
-  display:flex;
+  display: flex;
 }
 
-.deleteCommentButton{
-  position:absolute;
+.deleteCommentButton {
+  position: absolute;
   right: 10px;
   margin-top: 20px;
+  font-size: 20px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
   font-size: 20px;
 }
